@@ -1,0 +1,30 @@
+# built application
+*.apk
+*.ap_
+
+# dex vm
+*.dex
+
+# java class
+*.class
+
+# generated
+bin/
+gen/
+
+# local config
+local.properties
+
+# osx
+.DS_Store
+
+# android studio
+*.iml
+.idea
+.gradle
+build/
+.navigation
+captures/
+output.json
+proguard/
+.externalNativeBuild
