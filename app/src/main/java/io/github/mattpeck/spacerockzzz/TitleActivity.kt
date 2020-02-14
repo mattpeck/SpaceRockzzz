@@ -1,8 +1,9 @@
-package com.mattpeck.spacerockzzz
+package io.github.mattpeck.spacerockzzz
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import io.github.mattpeck.spacerockzzz.R
 import kotlinx.android.synthetic.main.activity_title.*
 
 class TitleActivity : AppCompatActivity() {

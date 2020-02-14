@@ -1,4 +1,4 @@
-package com.mattpeck.spacerockzzz
+package io.github.mattpeck.spacerockzzz
 
 import android.content.Context
 import android.view.SurfaceView

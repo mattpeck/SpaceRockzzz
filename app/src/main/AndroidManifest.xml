@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.mattpeck.spacerockzzz">
+          package="io.github.mattpeck.spacerockzzz">
 
     <application
             android:allowBackup="true"
@@ -9,10 +9,10 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".GameActivity">
+        <activity android:name="io.github.mattpeck.spacerockzzz.GameActivity">
         </activity>
         <activity
-                android:name=".TitleActivity"
+                android:name="io.github.mattpeck.spacerockzzz.TitleActivity"
                 android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
