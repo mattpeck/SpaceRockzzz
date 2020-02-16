@@ -24,7 +24,9 @@ class GameView(context: Context) : SurfaceView(context), Runnable {
     private val paint: Paint = Paint()
     private val surfaceHolder: SurfaceHolder = holder
 
-    private val player: Player = Player(context)
+    private val player: Player = Player(context,
+        this.resources.displayMetrics.widthPixels / 2f,
+        this.resources.displayMetrics.heightPixels / 2f)
 
     override fun run() {
         while (isPlaying) {
@@ -56,7 +58,7 @@ class GameView(context: Context) : SurfaceView(context), Runnable {
             paint.color = Color.WHITE
             paint.textSize = 45f
             canvas.drawText("FPS: $currentFPS", 20f, 40f, paint)
-//            canvas.drawBitmap(player.bitmap, player.x, player.y, paint)
+            canvas.drawBitmap(player.bitmap, player.x, player.y, paint)
             surfaceHolder.unlockCanvasAndPost(canvas)
         }
     }
