@@ -3,7 +3,10 @@ package io.github.mattpeck.spacerockzzz
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.Paint
+import android.util.Log
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 
@@ -21,12 +24,12 @@ class GameView(context: Context) : SurfaceView(context), Runnable {
     private var nextGameTick: Long = System.currentTimeMillis()
     private var currentFPS: Long = 0
 
+    private val screenWidth = this.resources.displayMetrics.widthPixels
+    private val screenHeight = this.resources.displayMetrics.heightPixels
     private val paint: Paint = Paint()
     private val surfaceHolder: SurfaceHolder = holder
 
-    private val player: Player = Player(context,
-        this.resources.displayMetrics.widthPixels / 2f,
-        this.resources.displayMetrics.heightPixels / 2f)
+    private val player: Player = Player(context,screenWidth / 2f, screenHeight / 2f)
 
     override fun run() {
         while (isPlaying) {
@@ -54,11 +57,8 @@ class GameView(context: Context) : SurfaceView(context), Runnable {
             val canvas: Canvas = surfaceHolder.lockCanvas()
             // Black Background
             canvas.drawColor(Color.BLACK)
-            // FPS Text
-            paint.color = Color.WHITE
-            paint.textSize = 45f
-            canvas.drawText("FPS: $currentFPS", 20f, 40f, paint)
-            canvas.drawBitmap(player.bitmap, player.x, player.y, paint)
+            drawFPSText(canvas)
+            drawPlayer(canvas)
             surfaceHolder.unlockCanvasAndPost(canvas)
         }
     }
@@ -84,5 +84,44 @@ class GameView(context: Context) : SurfaceView(context), Runnable {
         isPlaying = true
         thread = Thread(this@GameView)
         thread?.start()
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        event?.let {
+            when (it.action) {
+                MotionEvent.ACTION_UP -> {
+                    player.rotationState = Player.RotationStates.NONE
+                }
+                MotionEvent.ACTION_DOWN -> {
+                    if ( it.x <= screenWidth / 2) {
+                        player.rotationState = Player.RotationStates.COUNTER_CLOCKWISE
+                    }
+                    else {
+                        player.rotationState = Player.RotationStates.CLOCKWISE
+                    }
+                }
+                else -> {
+                    // Empty
+                }
+            }
+        }
+
+        return true
+    }
+
+    // Drawing Helpers
+
+    private fun drawFPSText(canvas: Canvas) {
+        paint.color = Color.WHITE
+        paint.textSize = 45f
+        canvas.drawText("FPS: $currentFPS", 20f, 40f, paint)
+    }
+
+    private fun drawPlayer(canvas: Canvas) {
+        val matrix = Matrix().apply {
+            setRotate(player.angle, player.bitmap.width / 2f, player.bitmap.height / 2f)
+            postTranslate(player.x, player.y)
+        }
+        canvas.drawBitmap(player.bitmap, matrix, paint)
     }
 }
